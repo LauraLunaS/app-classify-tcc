@@ -92,9 +92,9 @@ export default function Login() {
     <div className={style.ContainerBox}>
       <img src={logo} className={style.logo} alt="Logo"></img>
         <form className={style.form} onSubmit={handleSubmit}>
-          <h1>
-            Bem-Vindo de <br></br> volta
-          </h1>
+          <h2>
+            Faça login ou cadastre-se
+          </h2>
           <input
             type="text"
             placeholder="Enter your email"

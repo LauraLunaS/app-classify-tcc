@@ -22,38 +22,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const fetchTurmas = async () => {
-      try {
-        const sessionToken = localStorage.getItem("session_token");
-
-        if (!sessionToken) {
-          setError("Token de sessão não encontrado.");
-          setLoading(false);
-          return;
-        }
-
-        const responseTurmas = await fetch(
-          "https://tcc-demanda-de-turmas.onrender.com/api/turma",
-          {
-            headers: {
-              Authorization: `Bearer ${sessionToken}`,
-            },
-          }
-        );
-
-        if (responseTurmas.ok) {
-          const dataTurmas = await responseTurmas.json();
-          setTurmas(dataTurmas);
-          console.log(dataTurmas);
-        } else {
-          console.error("Falha ao obter dados das turmas:", responseTurmas.status);
-          setError("Falha ao obter dados das turmas. Por favor, tente novamente.");
-        }
-      } catch (error) {
-        console.error("Erro ao obter dados das turmas:", error);
-        setError("Falha ao obter dados das turmas. Por favor, tente novamente.");
-      }
-    };
 
     const fetchCursos = async () => {
       try {
@@ -80,46 +48,26 @@ export default function Home() {
       }
     };
 
-    const fetchDisciplinas = async () => {
-      try {
-        const sessionToken = localStorage.getItem("session_token");
-
-        const responseDisciplinas = await fetch(
-          "https://tcc-demanda-de-turmas.onrender.com/api/disciplina",
-          {
-            headers: {
-              Authorization: `Bearer ${sessionToken}`,
-            },
-          }
-        );
-
-        if (responseDisciplinas.ok) {
-          const dataDisciplinas = await responseDisciplinas.json();
-          setDisciplinas(dataDisciplinas);
-          console.log(dataDisciplinas)
-        } else {
-          console.error("Falha ao obter dados das disciplinas:", responseDisciplinas.status);
-        }
-      } catch (error) {
-        console.error("Erro ao obter dados das disciplinas:", error);
-      }
-    };
-
-    fetchTurmas();
     fetchCursos();
-    fetchDisciplinas();
   }, []); 
+
+  const handleCursoClick = () => {
+    window.location.href = "/solicitation";
+  };
   
 
   return (
     <div className={style.background}>
       <header className={style.header}>
-        <div className={style.person}></div>
-        <div className={style.section}>
-          <h2 className={style.name}>Helena dos Santos</h2>
-          <img src={emailhome} className={style.emailhome}></img>
-          <p className={style.email}>email@helena.com</p>
-          <img></img>
+        <div className={style.contentBox}>
+          <div className={style.person}></div>
+          <div className={style.ConatainerColumn}>
+            <h2>Helena dos Santos</h2>
+            <div className={style.ContainerEmail}>
+              <img src={emailhome}></img>
+              <p>helena@email.com</p>
+            </div>
+          </div>
         </div>
       </header>
       <div className={style.Btn}>
@@ -129,40 +77,17 @@ export default function Home() {
         <button className={style.BtnOut}>Outros</button>
       </div>
 
-      <section className={style.session}>
-        <h2 className={style.h2}>Solicitações</h2>
-        <div>
-          <input type="text" className={style.Input}></input>
-          <button className={style.BtnAdd} onClick={openModal}>Adicionar</button>
-        </div>
-          {modalIsOpen && (
-            <div>
-              <Modal onRequestClose={closeModal} />
-            </div>
-          )}
-      </section>
-
-      {turmas.map((turma, index) => {
-        const curso = cursos.find((c) => c.id === turma.courseId);
-        const disciplina = disciplinas.find((d) => d.id === turma.disciplineId);
-
-        return (
-          <div key={index} className={style.Info}>
-            <div className={style.Box}>
-              <p className={style.Sip}>SI</p>
-            </div>
-            <div className={style.info}>
-              <h5 className={style.hinfo}>
-                {curso ? curso.name : "Nome do Curso Desconhecido"} -{" "}
-                {disciplina ? disciplina.name : "Nome da Disciplina Desconhecido"}
-              </h5>
-              <div>
-                <button>Excluir</button>
-              </div>
-            </div>
+      <div className={style.content}>
+        <h4>Cursos</h4>
+          <div className={style.ContainerCurso}>
+              {cursos.map((curso) => (
+                <>
+                  <li key={curso.id} className={style.curso} onClick={handleCursoClick}>{curso.name}</li>
+                </>
+              ))}
           </div>
-        );
-      })}
+        </div>
     </div>
   );
 }
+
