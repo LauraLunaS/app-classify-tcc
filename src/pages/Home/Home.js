@@ -7,15 +7,12 @@ import Modal from "../Modal/Modal";
 export default function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [turmas, setTurmas] = useState([]);
-  const [cursos, setCursos] = useState([]);
-  const [disciplinas, setDisciplinas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   const openModal = () => {
     setModalIsOpen(true);
-   };
+  };
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -54,7 +51,6 @@ export default function Home() {
   const handleCursoClick = () => {
     window.location.href = "/solicitation";
   };
-  
 
   return (
     <div className={style.background}>
@@ -76,6 +72,7 @@ export default function Home() {
         <button className={style.BtnPre}>Preferências</button>
         <button className={style.BtnOut}>Outros</button>
       </div>
+
 
       <div className={style.content}>
         <h4>Cursos</h4>
